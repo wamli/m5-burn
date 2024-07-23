@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "pytorch-import",
+]
+
+resolver = "2"
