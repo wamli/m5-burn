@@ -4,4 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-burn = { version = "0.13.2", features = ["train", "wgpu", "vision"] }
+model = { path = "./model" }
+burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray"] }
+burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
+
+[build-dependencies]
+model = { path = "./model" }
+burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray"] }
+burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
