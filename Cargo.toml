@@ -1,14 +1,16 @@
 [package]
-name = "pytorch-import"
+name = "m5_burn"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-model = { path = "./model" }
-burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray"] }
+# model = { path = "./model" }
+hound = "3.5.1"
+burn-ndarray = "0.13.2"
+burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray", "vision"] }
 burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
 
 [build-dependencies]
-model = { path = "./model" }
+# model = { path = "./model" }
 burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray"] }
 burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }

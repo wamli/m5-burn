@@ -10,3 +10,14 @@ The archetype of this repository is sudomonikers [whisper-burn](https://github.c
 * The rationale for selecting this model is that it is discussed in detail on [Speech Command Clasification with torchaudio](https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html).
 * `pytorch-import/pytorch/m5_model_weights.pt` contains the weights of a pre-trained M5 model. Pre-training was done at in [this Colab notebook](https://colab.research.google.com/github/pytorch/tutorials/blob/gh-pages/_downloads/c64f4bad00653411821adcb75aea9015/speech_command_classification_with_torchaudio_tutorial.ipynb) during 2 epochs.
 
+## Build it
+
+```bash
+cargo run --release --bin convert
+```
+
+## Run it
+
+```bash
+cargo run --release --bin infer
+```
