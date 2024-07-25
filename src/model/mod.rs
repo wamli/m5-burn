@@ -109,61 +109,86 @@ impl<B: Backend> M5<B> {
    }
 
    pub fn forward(&self, input: Tensor<B, 3>) -> Tensor<B, 3> {
-      print!("shape of input: {:?}", input.shape());
-
       let conv1_out = self.conv1.forward(input);
-      print!("shape of conv1: {:?}", conv1_out.shape());
-
       let bn1_out = self.bn1.forward(conv1_out);
-      print!("shape of bn1: {:?}", bn1_out.shape());
-
       let relu_out1 = relu(bn1_out);
-
       let pool1_out = self.pool1.forward(relu_out1);
-      print!("shape of pool1: {:?}", pool1_out.shape());
-
       let conv2_out = self.conv2.forward(pool1_out); 
-      print!("shape of conv2: {:?}", conv2_out.shape());
-
       let bn2_out = self.bn2.forward(conv2_out);
-      print!("shape of bn2: {:?}", bn2_out.shape());
-
       let relu_out2 = relu(bn2_out);
-
       let pool2_out = self.pool2.forward(relu_out2);
-      print!("shape of pool2: {:?}", pool2_out.shape());
-      
       let conv3_out = self.conv3.forward(pool2_out);
-      print!("shape of conv3: {:?}", conv3_out.shape());
-
       let bn3_out = self.bn3.forward(conv3_out);
-      print!("shape of bn3: {:?}", bn3_out.shape());
-
       let relu_out3 = relu(bn3_out);
-
       let pool3_out = self.pool3.forward(relu_out3);
-      print!("shape of pool3: {:?}", pool3_out.shape());
-
       let conv4_out = self.conv4.forward(pool3_out);
-      print!("shape of conv4: {:?}", conv4_out.shape());
-
       let bn4_out = self.bn4.forward(conv4_out);
-      print!("shape of bn4: {:?}", bn4_out.shape());
-
       let relu_out4 = relu(bn4_out);
-
       let pool4_out = self.pool4.forward(relu_out4);
-      print!("shape of pool4: {:?}", pool4_out.shape());
-
-      // let avg_pool = avg_pool1d(pool4_out, 1, 0, 0, true);
-      // print!("shape of avg_pool: {:?}", avg_pool.shape());
-      // let permuted = Tensor::permute(avg_pool, [0,2,1]);
-      let permuted = Tensor::permute(pool4_out, [0,2,1]);
-
+      let avg_pool = avg_pool1d(pool4_out, 1, 1, 0, true);
+      let permuted = Tensor::permute(avg_pool, [0,2,1]);
       // let fc1_out = self.fc1.forward(permuted);
       let fc1_out = self.fc1.forward(permuted);
-      print!("shape of fc1_out: {:?}", fc1_out.shape());
-
       log_softmax(fc1_out, 2)
    }
+
+
+   // pub fn forward(&self, input: Tensor<B, 3>) -> Tensor<B, 3> {
+   //    print!("shape of input: {:?}", input.shape());
+
+   //    let conv1_out = self.conv1.forward(input);
+   //    print!("shape of conv1: {:?}", conv1_out.shape());
+
+   //    let bn1_out = self.bn1.forward(conv1_out);
+   //    print!("shape of bn1: {:?}", bn1_out.shape());
+
+   //    let relu_out1 = relu(bn1_out);
+
+   //    let pool1_out = self.pool1.forward(relu_out1);
+   //    print!("shape of pool1: {:?}", pool1_out.shape());
+
+   //    let conv2_out = self.conv2.forward(pool1_out); 
+   //    print!("shape of conv2: {:?}", conv2_out.shape());
+
+   //    let bn2_out = self.bn2.forward(conv2_out);
+   //    print!("shape of bn2: {:?}", bn2_out.shape());
+
+   //    let relu_out2 = relu(bn2_out);
+
+   //    let pool2_out = self.pool2.forward(relu_out2);
+   //    print!("shape of pool2: {:?}", pool2_out.shape());
+      
+   //    let conv3_out = self.conv3.forward(pool2_out);
+   //    print!("shape of conv3: {:?}", conv3_out.shape());
+
+   //    let bn3_out = self.bn3.forward(conv3_out);
+   //    print!("shape of bn3: {:?}", bn3_out.shape());
+
+   //    let relu_out3 = relu(bn3_out);
+
+   //    let pool3_out = self.pool3.forward(relu_out3);
+   //    print!("shape of pool3: {:?}", pool3_out.shape());
+
+   //    let conv4_out = self.conv4.forward(pool3_out);
+   //    print!("shape of conv4: {:?}", conv4_out.shape());
+
+   //    let bn4_out = self.bn4.forward(conv4_out);
+   //    print!("shape of bn4: {:?}", bn4_out.shape());
+
+   //    let relu_out4 = relu(bn4_out);
+
+   //    let pool4_out = self.pool4.forward(relu_out4);
+   //    print!("shape of pool4: {:?}", pool4_out.shape());
+
+   //    let avg_pool = avg_pool1d(pool4_out, 1, 1, 0, true);
+   //    // print!("shape of avg_pool: {:?}", avg_pool.shape());
+   //    // let permuted = Tensor::permute(avg_pool, [0,2,1]);
+   //    let permuted = Tensor::permute(avg_pool, [0,2,1]);
+
+   //    // let fc1_out = self.fc1.forward(permuted);
+   //    let fc1_out = self.fc1.forward(permuted);
+   //    print!("shape of fc1_out: {:?}", fc1_out.shape());
+
+   //    log_softmax(fc1_out, 2)
+   // }
 }

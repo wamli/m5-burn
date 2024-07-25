@@ -27,7 +27,7 @@ fn load_wav_to_tensor<B: burn::prelude::Backend>(file_path: &str) -> Tensor<B, 3
     // Load the .wav file
     let mut reader = WavReader::open(file_path).unwrap();
     let spec = reader.spec();
-    println!("Going to consume file of {:?} ..", spec);
+    println!("\nGoing to consume file of {:?} ..", spec);
     // let samples: Vec<f32> = reader.samples::<i16>().map(|s| s.unwrap() as f32 / i16::MAX as f32).collect();
     let samples: Vec<f32> = reader.samples::<f32>().collect::<Result<_, _>>().unwrap();
 
@@ -51,14 +51,14 @@ fn main() {
 
     let m5 = load_model(import_path);
     
-    println!("Loaded model '{}'", m5);
+    println!("\nLoaded model '{}'", m5);
 
     let input = load_wav_to_tensor("notebooks/zero.wav");
 
-    println!("Looking for some inference result for {:?} ..", input.shape());
+    println!("\nLooking for some inference result for some wave of shape {:?} ..", input.shape());
 
     let x = m5.forward(input);
 
-    println!("Output: {:?}", x);
+    println!("\nOutput:\n{:?}", x);
 
 }
