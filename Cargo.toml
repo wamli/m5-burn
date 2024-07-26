@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 # model = { path = "./model" }
 hound = "3.5.1"
+cpal = "0.15.3"
+webrtc-vad = "0.4.0"
 burn-ndarray = "0.13.2"
 burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray", "vision"] }
 burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
