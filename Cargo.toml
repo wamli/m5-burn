@@ -5,14 +5,17 @@ edition = "2021"
 
 [dependencies]
 # model = { path = "./model" }
+rtrb = "0.3.1"
 hound = "3.5.1"
 cpal = "0.15.3"
+chrono = "0.4.38"
 webrtc-vad = "0.4.0"
 burn-ndarray = "0.13.2"
+tokio = { version = "1.39.1", features = ["full"] }
 burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray", "vision"] }
 burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
 
-[build-dependencies]
-# model = { path = "./model" }
-burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray"] }
-burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
+# [build-dependencies]
+# # model = { path = "./model" }
+# burn = { version = "0.13.2", features = ["train", "wgpu", "ndarray"] }
+# burn-import = { version = "0.13.2" , features = ["pytorch",], default-features = false }
