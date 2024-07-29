@@ -1,12 +1,13 @@
-use tokio::io::Error;
-use chrono::prelude::*;
-use tokio::time::{sleep, Duration};
-use tokio::sync::{mpsc, oneshot};
+// use tokio::io::Error;
+// use chrono::prelude::*;
+// use tokio::time::{sleep, Duration};
+// use tokio::sync::{mpsc, oneshot};
+use std::sync::mpsc;
+use webrtc_vad::{Vad, VadMode};
 use rtrb::{Producer, RingBuffer};
-use webrtc_vad::{Vad, VadMode, SampleRate};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
-pub type Result<T> = std::result::Result<T, Error>;
+// pub type Result<T> = std::result::Result<T, Error>;
 
 const MAXIMUM_INACTIVE_CNT: usize = 35;    // 350 ms
 const MINIMUM_SAMPLE_CNT: usize = 80 *  60; // 80 values à 10 ms (8kHz) :=  600ms
@@ -178,33 +179,24 @@ fn normalize_audio_data_to_8k(input_data: &[f32], input_sample_rate: &f32) -> Ve
     resampled_data
 }
 
-async fn consume_audio(receiver: mpsc::Receiver<Vec<i16>>) {
+fn consume_audio(_receiver: mpsc::Receiver<Vec<i16>>) {
     loop{}
 }
 
-#[tokio::main]
-async fn main() -> Result<()> {
+fn main() {
     println!("Ramping up ..");
 
-    let (sender, receiver) = mpsc::channel(32);
+    let (sender, receiver) = mpsc::channel();
 
-    tokio::spawn(async move {
+    std::thread::spawn(move || {
         record_audio(sender);
     });
 
-    tokio::spawn(async move {
-        consume_audio(receiver).await;
+    std::thread::spawn(move || {
+        consume_audio(receiver);
     });
 
-    
-    let print_task = tokio::spawn(async move {
-        let mut interval = tokio::time::interval(Duration::from_secs(2));
-        loop {
-            interval.tick().await;
-        }
-    });
-
-    let _ = tokio::join!(print_task);
-
-    Ok(())
+    loop {
+        std::thread::sleep(std::time::Duration::from_millis(1000));
+    }
 }

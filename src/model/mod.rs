@@ -8,7 +8,7 @@ use burn::{
       BatchNorm, BatchNormConfig,
       Linear, LinearConfig,
       conv::{Conv1d, Conv1dConfig},
-      pool::{MaxPool1d, MaxPool1dConfig, AvgPool1d, AvgPool1dConfig},
+      pool::{MaxPool1d, MaxPool1dConfig},
    },
    tensor::{
       Tensor,
