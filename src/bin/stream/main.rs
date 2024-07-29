@@ -38,7 +38,7 @@ fn input_stream_callback(
     // println!("producer: {}", data.len());
 }
 
-async fn record_audio(sender: mpsc::Sender<Vec<i16>>) {
+fn record_audio(sender: mpsc::Sender<Vec<i16>>) {
     let host = cpal::default_host();
     let device = host.default_input_device().expect("Failed to get default input device");
     let config = device.default_input_config().expect("Failed to get default input config");
@@ -93,7 +93,7 @@ async fn record_audio(sender: mpsc::Sender<Vec<i16>>) {
 
                 // active & cnt_active at its upper limit -> send buffer to AI
                 (true, false, _, _) => {
-                    sender.send(speech_segment.clone()).await.expect("Failed to send data");
+                    sender.send(speech_segment.clone()).expect("Failed to send data");
                     speech_segment.clear();
                     cnt_inactive = 0;
                     cnt_active = 0;
@@ -107,7 +107,7 @@ async fn record_audio(sender: mpsc::Sender<Vec<i16>>) {
                 // not active for a longer time 
                 // but we gathered enough frames already  -> send buffer to AI
                 (false, _, true, true) => {
-                    sender.send(speech_segment.clone()).await.expect("Failed to send data");
+                    sender.send(speech_segment.clone()).expect("Failed to send data");
                     speech_segment.clear();
                     cnt_inactive = 0;
                     cnt_active = 0;
@@ -189,7 +189,7 @@ async fn main() -> Result<()> {
     let (sender, receiver) = mpsc::channel(32);
 
     tokio::spawn(async move {
-        record_audio(sender).await;
+        record_audio(sender);
     });
 
     tokio::spawn(async move {
